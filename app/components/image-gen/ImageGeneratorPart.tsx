@@ -26,86 +26,38 @@ const ImageGeneratorPart = () => {
   };
 
   const downloadImage = () => {
-    html2canvas(previewRef.current, { 
-      backgroundColor: null,
-      letterRendering: true,
-      allowTaint: true
-    }).then((canvas) => {
+    html2canvas(previewRef.current, { backgroundColor: null }).then((canvas) => {
       const context = canvas.getContext("2d");
       
-      // Get current text metrics
-      const textMetrics = context.measureText(text);
-      const textHeight = textMetrics.actualBoundingBoxDescent + textMetrics.actualBoundingBoxAscent;
-      
-      // Position calculations
-      const textX = canvas.width / 2 + 80; // Centered x-position
-      const textY = canvas.height / 2; // Centered y-position
-      
-      // Draw user's text
-      context.fillStyle = textColor;
-      context.font = `${fontSize}px ${fontStyle}`;
-      context.textAlign = textAlign;
-      context.textBaseline = 'middle';
-      context.fillText(text, textX, textY);
-      
-      // Draw watermark below text
-      context.fillStyle = "#ffffff"; // White background
+      // Add watermark to canvas
       context.font = "16px Arial";
-      context.textAlign = "center";
-      context.textBaseline = "top";
+      context.fillStyle = "rgba(255, 255, 255, 0.5)";
+      context.fillText("by XQuotes", 10, canvas.height - 10);
       
-      // Position watermark 20 pixels below user's text
-      const watermarkY = textY + textHeight/2 + 280;
-      context.fillText("by XQuotes", textX, watermarkY);
-
       const link = document.createElement("a");
       link.href = canvas.toDataURL("image/png");
       link.download = "generated-image.png";
       link.click();
     });
   };
-
+  
   const copyImage = () => {
-    html2canvas(previewRef.current, { 
-      backgroundColor: null,
-      letterRendering: true,
-      allowTaint: true
-    }).then((canvas) => {
+    html2canvas(previewRef.current, { backgroundColor: null }).then((canvas) => {
       const context = canvas.getContext("2d");
-      
-      // Get current text metrics
-      const textMetrics = context.measureText(text);
-      const textHeight = textMetrics.actualBoundingBoxDescent + textMetrics.actualBoundingBoxAscent;
-      
-      // Position calculations
-      const textX = canvas.width / 2; // Centered x-position
-      const textY = canvas.height / 2; // Centered y-position
-      
-      // Draw user's text
-      context.fillStyle = textColor;
-      context.font = `${fontSize}px ${fontStyle}`;
-      context.textAlign = textAlign;
-      context.textBaseline = "middle";
-      context.fillText(text, textX, textY);
-      
-      // Draw watermark below text
-      context.fillStyle = "#ffffff"; // White background
+  
+      // Add watermark to canvas
       context.font = "16px Arial";
-      context.textAlign = "center";
-      context.textBaseline = "top";
+      context.fillStyle = "rgba(255, 255, 255, 0.5)";
+      context.fillText("by XQuotes", 10, canvas.height - 10);
       
-      // Position watermark 20 pixels below user's text
-      const watermarkY = textY + textHeight/2 + 20;
-      context.fillText("by XQuotes", textX, watermarkY);
-
       canvas.toBlob((blob) => {
-        navigator.clipboard.write([ 
-          new ClipboardItem({ "image/png": blob }) 
-        ]);
+        navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
         alert("Image copied to clipboard!");
       });
     });
   };
+  
+  
 
   return (
     <>
@@ -185,7 +137,6 @@ const ImageGeneratorPart = () => {
       {/* Preview Section */}
       <div className="relative w-[600px] h-[550px] flex justify-center items-start border border-gray-300 rounded-lg shadow-lg" style={{ backgroundColor }} ref={previewRef}>
         {bgImage && <img src={bgImage} alt="Background" className="absolute inset-0 w-full h-full object-cover rounded-lg" />}
-        {/* Render the text here */}
         <p
           className="absolute p-4"
           style={{
@@ -205,10 +156,11 @@ const ImageGeneratorPart = () => {
           {text}
         </p>
 
-        {/* Watermark: Display with white background and black text */}
-        <div className="absolute bottom-0 left-0 p-2 bg-white text-black text-opacity-100" style={{ display: "block" }}>
-          by XQuotes
-        </div>
+        {/* Watermark: hidden during preview, but drawn during export */}
+        <div className="absolute bottom-0 left-0 p-2 bg-white text-black text-opacity-50" style={{ display: "none" }}>
+  by XQuotes
+</div>
+
       </div>
 
       {/* Action Buttons */}
