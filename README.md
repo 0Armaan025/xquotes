@@ -10,5 +10,9 @@
 3.) ``npm install``
 4.) ``npm run dev`` and boom! it will be running on ``http://localhost:3000`` :)
 
+
+## Contributing:
+### You are free to contribute, but make sure you make a pull request first :)
+
 ### Make sure to leave a star and follow me! ⭐
 ### X account: https://x.com/0Armaan025
