@@ -16,17 +16,20 @@ const ImageGeneratorPart = () => {
   const [bgImage, setBgImage] = useState(null);
   const previewRef = useRef(null);
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = (e:any) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => setBgImage(e.target.result);
+      reader.onload = (e:any) => setBgImage(e.target.result);
       reader.readAsDataURL(file);
     }
   };
 
   const generateImage = async () => {
-    return await html2canvas(previewRef.current, { backgroundColor: null });
+    if (previewRef.current) {
+      return await html2canvas(previewRef.current, { backgroundColor: null });
+    }
+    throw new Error("Preview reference is null");
   };
 
   const downloadImage = async () => {
@@ -40,7 +43,9 @@ const ImageGeneratorPart = () => {
   const copyImage = async () => {
     const canvas = await generateImage();
     canvas.toBlob((blob) => {
-      navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      if (blob) {
+        navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      }
     });
   };
 
@@ -127,7 +132,7 @@ const ImageGeneratorPart = () => {
             fontWeight: isBold ? "bold" : "normal",
             fontStyle: isItalic ? "italic" : "normal",
             textDecoration: isUnderline ? "underline" : "none",
-            textAlign,
+            textAlign: textAlign as "left" | "center" | "right",
             width: "100%",
             display: "flex",
             justifyContent: textAlign === "left" ? "flex-start" : textAlign === "right" ? "flex-end" : "center",
