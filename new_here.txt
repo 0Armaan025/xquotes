@@ -1,290 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+async function shortenHeadlines() {
+    const inputText = document.getElementById('headlineInput').value;
+    const headlines = inputText.split('\n').filter(line => line.trim() !== '');
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - e-Aspirants</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            background-color: #121212;
-            overflow-x: hidden;
-        }
+    if (headlines.length === 0) {
+        alert('Please enter at least one headline');
+        return;
+    }
 
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+    // Show loading indicator
+    const loadingElement = document.getElementById('loading');
+    loadingElement.style.display = 'block';
 
-        header {
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px 0;
-            position: relative;
-            z-index: 10;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            margin: 0;
-            padding: 0;
-        }
-
-        .nav-links li {
-            margin: 0 15px;
-            position: relative;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #fff;
-            font-weight: 500;
-            padding: 5px 0;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #fff;
-            transform-origin: bottom right;
-            transition: transform 0.25s ease-out;
-        }
-
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-        }
-
-        .auth-form {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 8px;
-            width: 400px;
-        }
-
-        .auth-form h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .auth-form label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .auth-form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background-color: transparent;
-            color: #fff;
-            border-radius: 4px;
-        }
-
-        .auth-form button {
-            background-color: #1976d2;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .auth-form p {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .auth-form a {
-            color: #1976d2;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="particles-js"></div>
-    <header>
-        <nav>
-            <div class="logo">e-Aspirants</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="auth-form">
-            <h2>Create an Account</h2>
-            <form action="dashboard.html" method="post">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <button type="submit">Sign Up</button>
-            </form>
-            <p>Already have an account? <a href="login.html">Login</a></p>
-        </section>
-    </main>
-    <script>
-        particlesJS('particles-js', {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    },
-                    "image": {
-                        "src": "img/github.svg",
-                        "width": 100,
-                        "height": 100
-                    }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 6,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
+    try {
+        const response = await fetch('http://127.0.0.1:5000/shorten', {
+            method: 'POST',
+            mode: 'cors', // Ensure CORS mode
+            credentials: 'include', // Include cookies if needed
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36',
+                'Referer': 'http://localhost/', // Mimic a real webpage request
             },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "repulse"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 400,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 200
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
-                    }
-                }
-            },
-            "retina_detect": true,
-            "config_demo": {
-                "hide_card": false,
-                "background_color": "#472342",
-                "background_image": "",
-                "background_position": "50% 50%",
-                "background_repeat": "no-repeat",
-                "background_size": "cover"
-            }
+            body: JSON.stringify({ headlines })
         });
-    </script>
-</body>
 
-</html>
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Display the shortened headlines
+        const resultList = document.getElementById('result');
+        resultList.innerHTML = '';
+
+        data.shortened_headlines.forEach(shortened => {
+            const listItem = document.createElement('li');
+            listItem.textContent = shortened;
+            resultList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error('Error shortening headlines:', error);
+        alert('Failed to shorten headlines. Please try again later.');
+    } finally {
+        // Hide loading indicator
+        loadingElement.style.display = 'none';
+    }
+}
